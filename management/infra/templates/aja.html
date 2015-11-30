@@ -1,0 +1,145 @@
+
+{% extends 'base/BASE.html' %}
+
+{% block js_block %}
+
+<script type="text/javascript">
+$(function() { 
+	$('.selectpicker').selectpicker();
+	load_monitors();
+});
+</script>
+
+{% endblock %}
+
+{% block form_block %}
+	<div class="container">
+		<form role="form" method="post" action="">
+		  <div class="row">
+		  	<h5><span class="label label-default"> Choose Monitor </span></h5>
+		  </br>
+			<div class="col col-md-3">
+				<div class="form-group">
+					<select class="selectpicker" id="mon_brand"> </select>
+				</div>
+			</div>
+			<div class="col col-md-3">
+				<div class="form-group">
+					<select class="selectpicker" id="mon_size"> </select>
+				</div>
+			</div>
+			<div class="col col-md-3">
+				<div class="form-group">
+					<select class="selectpicker" id="mon_type"></select>
+				</div>
+			</div>
+
+			<div class="col col-md-3">
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" id="monitor_check">availability </button>
+				</div>
+			</div>
+		  </div>
+		<hr style="border-width: 6.5px;"/>
+		  <div class="row">
+		  	<h5><span class="label label-default"> Choose Processor </span></h5>
+		  </br>
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<select class="selectpicker" id="prcsr_brand"></select>
+		  		</div>
+		  	</div>
+
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<select class="selectpicker" id="prcsr_freq"></select>
+		  		</div>
+		  	</div>
+
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<select class="selectpicker" id="prcsr_type"></select>
+		  		</div>
+		  	</div>
+
+		  	<div class="col col-md-2">
+		  		<div class="form-group">
+		  			<select class="selectpicker" id="prcsr_arch"></select>
+		  		</div>
+		  	</div>
+
+		  	<div class="col-md-6 col-md-offset-5">
+		  		<div class="form-group">
+		  		</br>
+		  			<button type="button" class="btn btn-primary" id="processor_check">availability </button>
+		  		</div>
+		  	</div>
+		 </div>
+		  <hr style="border-width: 6.5px;" />
+
+		  <div class="row">
+		  	<h5><span class="label label-default"> Choose Keyboard &amp; Mouse </span></h5>
+		  </br>
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<select class="selectpicker" id="keyboard"></select>
+		  		</div>
+		  	</div>
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<button type="button" class="btn btn-primary" id="kbrd_check">Keyboard availability </button>
+		  		</div>
+		  	</div>
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<select class="selectpicker" id="mouse"></select>
+		  		</div>
+		  	</div>
+		  	<div class="col col-md-3">
+		  		<div class="form-group">
+		  			<button type="button" class="btn btn-primary" id="mouse_check">Mouse availability </button>
+		  		</div>
+		  	</div>
+		  </div>
+		<hr style="border-width: 6.5px;" />
+
+		<div class="row">
+		<h5><span class="label label-default"> Choose OS &amp; Arch. </span></h5>
+		</br>
+			<div class="col col-md-6">
+				<div class="form-group">
+					<select class="selectpicker" id="os"></select>
+				</div>
+			</div>
+
+			<div class="col col-md-6">
+				<div class="form-group">
+					<select class="selectpicker" id="os_arch"></select>
+				</div>
+			</div>
+		</div>
+
+		<hr style="border-width: 6.5px;" />
+		<div class="row">
+		<h5><span class="label label-default"> Miscellenious </span></h5>
+		</br>
+			<div class="col col-md-6">
+				<div class="form-group">
+					<select class="selectpicker" id="os_arch"></select>
+				</div>
+			</div>
+		</div>
+		<hr style="border-width: 6.5px;" />
+		<div class="row">
+			<div class="col-md-6 col-md-offset-5">
+				<div class="form-group">
+					<button class="btn btn-danger" id="assign-hardware"><b><h4> Assign It </h4></b></button>
+				</div>
+			</div>
+		</div>
+
+		</form>
+	</div>
+
+</body>
+{% endblock %}
