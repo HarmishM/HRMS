@@ -1,0 +1,262 @@
+{% extends 'base/BASE.html' %}
+
+{% block js_block %}
+
+<script type="text/javascript">
+$(function(){
+	$('.datepicker').datepicker();
+	$('#contact-detail').hide();
+	$("#sidebar-li ul li a").click(function(e){
+		theDiv = $(this).attr("href");
+		//alert(theDiv);
+		if ($('#personal-edit').is(":visible")){
+			existtingDiv = '#personal-detail';
+		}
+		if ($('#contacts-edit').is(":visible")){
+			existtingDiv = '#contact-detail';
+		}
+		if (existtingDiv == theDiv) {
+			return false;
+		}
+
+		query = existtingDiv + "," + theDiv;
+		$(query).toggle();
+		e.preventDefault();
+		/*
+		if (theDiv == '#personal-detail') {
+			$('#contact-detail, #personal-detail').fadeToggle(500);
+		}
+		else {
+			$('#personal-detail, #contact-detail').fadeToggle(500);
+		}
+		*/
+		//$('#form-container:first-child').remove();
+    	//$('#form-container').append($(theDiv));
+    	//$(theDiv).appendTo('#form-container');
+    	//$(theDiv).slideToggle();
+    	
+    	//$(theDiv).show(500);
+    	
+    	//$('#contact-detail').fadeIn();
+    	//$('#form-container').hide().html($(theDiv).html()).show(500);
+	});
+});
+</script>
+
+<div class="container-fluid">
+		<div class="col-md-3 col-md-offset-1">
+			<div class="row">
+				<img src="" class="img-rounded" width="204" height="206"></img>
+			</div>
+			<div class="row">
+				</br>
+				<button type="button" class="btn btn-primary" style="width: 204;">Choose Pic </button>
+			</div>
+			</br>
+			<div id="sidebar-li" class="row" style="width:204;">
+				<ul class="nav">
+					<li><a href="#personal-detail">Personal Details</a></li>
+					<li><a href="#contact-detail">Contact Details</a></li>
+					<li><a href="#">Job</a></li>
+					<li><a href="#">Salary</a></li>
+					<li><a href="#">Reporting</a></li>
+					<li><a href="#">Qualifications</a></li>
+				</ul>
+			</div>
+		</div>
+
+	<div id="form-container" class="col col-md-8">
+		<div id="personal-detail">
+			<center><h4><span class="label label-primary">Employee Personal Details</span></h4></center>
+		</br>
+			<form role="form" id="persdetail" action="" method="post">
+				<div class="row">
+					<h5><span class="label label-default"> Personal Details </span></h5>
+					</br>
+					<div class="col col-md-3">
+						<div class="form-group">
+							<input type="text" id="firstname" class="form-control">
+						</div>
+					</div>
+					<div class="col col-md-3">
+						<div class="form-group">
+							<input type="text" id="middlename" class="form-control">
+						</div>
+					</div>
+					<div class="col col-md-3">
+						<div class="form-group">
+							<input type="text" id="lastname" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<hr style="border-width: 6.5px" />
+			</br>
+				<div class="row">
+					<h5><span class="label label-default"> Identity Details </span></h5>
+				</br>
+					<div class="col col-md-4">
+						<div class="form-group">
+							<input type="text" id="empID" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-4 col-md-offset-1">
+						<div class="form-group">
+							<input type="text" id="empID" class="form-control" placeholder="Any Other ID">
+						</div>
+					</div>
+				</div>
+
+				<hr style="border-width: 6.5px" />
+			</br>
+				<div class="row">
+					<h5><span class="label label-default"> Driving Licence Number, Expiry </span></h5>
+				</br>
+					<div class="col col-md-4">
+						<div class="form-group">
+							<input type="text" id="licence-num" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-4 col-md-offset-1">
+						<div class="form-group">
+							<div class="input-group date" data-date-format="mm/dd/yyyy">
+								<input type="text" class="form-control datepicker" name="licen-expiry" readonly="readonly" placeholder="Licence Expiry" id="dobpicker" />
+                    				<span class="input-group-addon">
+                        				<span class="glyphicon glyphicon-calendar"></span>
+                    				</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<hr style="border-width: 6.5px" />
+			</br>
+				<div class="row">
+					<h5><span class="label label-default">Marital status &amp; Gender</span></h5>
+				</br>
+						<div class="radio-inline">
+  							<label><input type="radio" name="optradio">Female</label>
+						</div>
+						<div class="radio-inline">
+  							<label><input type="radio" name="optradio">Male</label>
+						</div>
+						<div class="col col-md-4">
+							<div class="form-group">
+								<select class="selectpicker" name="marital-status" id="marital-status">
+									<option value="single">Single</option>
+									<option value="married">Married</option>
+									<option value="other">Other</option>
+								</select>
+							</div>
+						</div>
+				</div>
+			</br>
+				<div class="col-md-3 col-md-offset-4">
+					<div class="form-group">
+						<button type="button" class="btn btn-danger" id="personal-edit"> Edit Details </button>
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+
+<div id="contact-detail">
+	<center><h4><span class="label label-primary">Employee Contact Details</span></h4></center>
+		</br>
+<form role="form" action="" method="post">
+				<div class="row">
+					<h5><span class="label label-default"> Contact Details </span></h5>
+					</br>
+					<div class="col col-md-3">
+						<div class="form-group">
+							<input type="text" id="firstname" class="form-control">
+						</div>
+					</div>
+					<div class="col col-md-3">
+						<div class="form-group">
+							<input type="text" id="middlename" class="form-control">
+						</div>
+					</div>
+					<div class="col col-md-3">
+						<div class="form-group">
+							<input type="text" id="lastname" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<hr style="border-width: 6.5px" />
+			</br>
+				<div class="row">
+					<h5><span class="label label-default"> Identity Details </span></h5>
+				</br>
+					<div class="col col-md-4">
+						<div class="form-group">
+							<input type="text" id="empID" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-4 col-md-offset-1">
+						<div class="form-group">
+							<input type="text" id="empID" class="form-control" placeholder="Any Other ID">
+						</div>
+					</div>
+				</div>
+
+				<hr style="border-width: 6.5px" />
+			</br>
+				<div class="row">
+					<h5><span class="label label-default"> Driving Licence Number, Expiry </span></h5>
+				</br>
+					<div class="col col-md-4">
+						<div class="form-group">
+							<input type="text" id="licence-num" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-4 col-md-offset-1">
+						<div class="form-group">
+							<div class="input-group date" data-date-format="mm/dd/yyyy">
+								<input type="text" class="form-control datepicker" name="licen-expiry" readonly="readonly" placeholder="Licence Expiry" id="dobpicker" />
+                    				<span class="input-group-addon">
+                        				<span class="glyphicon glyphicon-calendar"></span>
+                    				</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<hr style="border-width: 6.5px" />
+			</br>
+				<div class="row">
+					<h5><span class="label label-default">Marital status &amp; Gender</span></h5>
+				</br>
+						<div class="radio-inline">
+  							<label><input type="radio" name="optradio">Female</label>
+						</div>
+						<div class="radio-inline">
+  							<label><input type="radio" name="optradio">Male</label>
+						</div>
+						<div class="col col-md-4">
+							<div class="form-group">
+								<select class="selectpicker" name="marital-status" id="marital-status">
+									<option value="single">Single</option>
+									<option value="married">Married</option>
+									<option value="other">Other</option>
+								</select>
+							</div>
+						</div>
+				</div>
+			</br>
+				<div class="col-md-3 col-md-offset-4">
+					<div class="form-group">
+						<button type="button" class="btn btn-danger" id="contacts-edit"> Edit Contacts </button>
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
