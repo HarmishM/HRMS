@@ -3,9 +3,14 @@
 {% block js_block %}
 
 <script type="text/javascript">
+$('.selectpicker').selectpicker();
+//$.backstretch("https://qsf.is.quoracdn.net/-2f32a993187981f4.png", {speed: 250});
+
 $(function(){
 	$('.datepicker').datepicker();
-	$('#contact-detail').hide();
+	$('#contact-detail, #job-detail, #reporting-detail').hide();
+	$('#supervisor-selects').hide();
+	//$('#job-detail').hide();
 	$("#sidebar-li ul li a").click(function(e){
 		theDiv = $(this).attr("href");
 		//alert(theDiv);
@@ -15,12 +20,21 @@ $(function(){
 		if ($('#contacts-edit').is(":visible")){
 			existtingDiv = '#contact-detail';
 		}
+		if ($('#job-edit').is(":visible")){
+			existtingDiv = '#job-detail';
+		}
+		if ($('#add-supervisor').is(":visible")){
+			existtingDiv = '#reporting-detail';
+		}
+		if ($('#save-supervisor').is(":visible")){
+			existtingDiv = '#reporting-detail';
+		}
 		if (existtingDiv == theDiv) {
 			return false;
 		}
 
 		query = existtingDiv + "," + theDiv;
-		$(query).toggle();
+		$(query).slideToggle();
 		e.preventDefault();
 		/*
 		if (theDiv == '#personal-detail') {
@@ -40,26 +54,46 @@ $(function(){
     	//$('#contact-detail').fadeIn();
     	//$('#form-container').hide().html($(theDiv).html()).show(500);
 	});
+
+$('#add-supervisor').on('click', function(){
+	$('#add-delete-super-buttons').css('visibility', 'hidden');
+	$('#supervisor-selects').show();
+	$('#supervisor-selects').css('visibility', 'visible');
 });
+
+$('#cancel-supervisor').on('click', function(){
+	$('#supervisor-selects').css('visibility', 'hidden');
+	$('#add-delete-super-buttons').show();
+	$('#add-delete-super-buttons').css('visibility', 'visible');
+	
+});
+
+var data = ['Mahadev','Steve Jobs','Linus Torvald','Mark Zucherburg','Richard Stallmen'];
+$('#supervisor-name').typeahead({
+        source: data,
+});
+
+});
+
 </script>
 
 <div class="container-fluid">
 		<div class="col-md-3 col-md-offset-1">
 			<div class="row">
-				<img src="" class="img-rounded" width="204" height="206"></img>
+				<img src="" class="img-rounded" width="190" height="206"></img>
 			</div>
 			<div class="row">
 				</br>
-				<button type="button" class="btn btn-primary" style="width: 204;">Choose Pic </button>
+				<button type="button" class="btn btn-primary" style="width: 190;">Choose Pic </button>
 			</div>
 			</br>
-			<div id="sidebar-li" class="row" style="width:204;">
+			<div id="sidebar-li" class="row" style="width:190;">
 				<ul class="nav">
 					<li><a href="#personal-detail">Personal Details</a></li>
 					<li><a href="#contact-detail">Contact Details</a></li>
-					<li><a href="#">Job</a></li>
+					<li><a href="#job-detail">Job</a></li>
 					<li><a href="#">Salary</a></li>
-					<li><a href="#">Reporting</a></li>
+					<li><a href="#reporting-detail">Reporting</a></li>
 					<li><a href="#">Qualifications</a></li>
 				</ul>
 			</div>
@@ -67,11 +101,10 @@ $(function(){
 
 	<div id="form-container" class="col col-md-8">
 		<div id="personal-detail">
-			<center><h4><span class="label label-primary">Employee Personal Details</span></h4></center>
-		</br>
-			<form role="form" id="persdetail" action="" method="post">
+			<center><h4><span class="label label-primary">Personal Details</span></h4></center>
+			<form role="form" id="persdetail" action="" class="col col-md-12" method="post">
 				<div class="row">
-					<h5><span class="label label-default"> Personal Details </span></h5>
+					<h5><span class="label label-default" style="padding-left:5px;"> Personal Details </span></h5>
 					</br>
 					<div class="col col-md-3">
 						<div class="form-group">
@@ -160,101 +193,236 @@ $(function(){
 
 			</form>
 		</div>
-
 <div id="contact-detail">
-	<center><h4><span class="label label-primary">Employee Contact Details</span></h4></center>
-		</br>
-<form role="form" action="" method="post">
+	<center><h4><span class="label label-primary">Contact Details</span></h4></center>
+	<form role="form" action="" method="post" class="col col-md-12">
 				<div class="row">
-					<h5><span class="label label-default"> Contact Details </span></h5>
+					<h5><span class="label label-default"> Current address </span></h5>
 					</br>
-					<div class="col col-md-3">
+					<div class="col col-md-8">
 						<div class="form-group">
-							<input type="text" id="firstname" class="form-control">
+							<label for="curr-add-1">Address Street-1</label>
+							<input type="text" name="curr-add-1" id="curr-add-1" class="form-control">
 						</div>
 					</div>
-					<div class="col col-md-3">
+					<div class="col col-md-8">
 						<div class="form-group">
-							<input type="text" id="middlename" class="form-control">
+							<label for="curr-add-2">Address Street-2</label>
+							<input type="text" name="curr-add-2" id="curr-add-2" class="form-control">
 						</div>
 					</div>
-					<div class="col col-md-3">
+					<div class="col col-md-8">
 						<div class="form-group">
-							<input type="text" id="lastname" class="form-control">
+							<label for="curr-city">City</label>
+							<input type="text" name="curr-city" id="curr-city" class="form-control">
+						</div>
+					</div>
+					<div class="col col-md-8">
+						<div class="form-group">
+							<label for="curr-state">State/Province</label>
+							<input type="text" name="curr-state" id="curr-state" class="form-control">
+						</div>
+					</div>
+					<div class="col col-md-5">
+						<div class="form-group">
+							<label for="curr-zip-code">Zip/Postal Code</label>
+							<input type="text" name="curr-zip-code" id="curr-zip-code" class="form-control">
 						</div>
 					</div>
 				</div>
-
-				<hr style="border-width: 6.5px" />
-			</br>
 				<div class="row">
-					<h5><span class="label label-default"> Identity Details </span></h5>
-				</br>
-					<div class="col col-md-4">
+					<hr style="border-width: 6.5px" />
+				<h5><span class="label label-default"> Telephonic Details</span></h5>
+			</br>
+					<div class="col col-md-5">
 						<div class="form-group">
-							<input type="text" id="empID" class="form-control">
-						</div>
-					</div>
-					<div class="col-md-4 col-md-offset-1">
-						<div class="form-group">
-							<input type="text" id="empID" class="form-control" placeholder="Any Other ID">
+							<label for="curr-home-phone">Home Telephone</label>
+							<input type="text" name="curr-home-phone" id="curr-home-phone" class="form-control">
 						</div>
 					</div>
 				</div>
-
-				<hr style="border-width: 6.5px" />
-			</br>
 				<div class="row">
-					<h5><span class="label label-default"> Driving Licence Number, Expiry </span></h5>
-				</br>
-					<div class="col col-md-4">
+					<div class="col-md-5">
 						<div class="form-group">
-							<input type="text" id="licence-num" class="form-control">
-						</div>
-					</div>
-					<div class="col-md-4 col-md-offset-1">
-						<div class="form-group">
-							<div class="input-group date" data-date-format="mm/dd/yyyy">
-								<input type="text" class="form-control datepicker" name="licen-expiry" readonly="readonly" placeholder="Licence Expiry" id="dobpicker" />
-                    				<span class="input-group-addon">
-                        				<span class="glyphicon glyphicon-calendar"></span>
-                    				</span>
-							</div>
+							<label for="curr-mobile">Mobile</label>
+							<input type="text" name="curr-mobile" id="curr-mobile" class="form-control">
 						</div>
 					</div>
 				</div>
-
-				<hr style="border-width: 6.5px" />
-			</br>
 				<div class="row">
-					<h5><span class="label label-default">Marital status &amp; Gender</span></h5>
-				</br>
-						<div class="radio-inline">
-  							<label><input type="radio" name="optradio">Female</label>
-						</div>
-						<div class="radio-inline">
-  							<label><input type="radio" name="optradio">Male</label>
-						</div>
-						<div class="col col-md-4">
-							<div class="form-group">
-								<select class="selectpicker" name="marital-status" id="marital-status">
-									<option value="single">Single</option>
-									<option value="married">Married</option>
-									<option value="other">Other</option>
-								</select>
-							</div>
-						</div>
-				</div>
+					<hr style="border-width: 6.5px" />
+				<h5><span class="label label-default">Email Addresses </span></h5>
 			</br>
-				<div class="col-md-3 col-md-offset-4">
-					<div class="form-group">
-						<button type="button" class="btn btn-danger" id="contacts-edit"> Edit Contacts </button>
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="pri-email">Private Email</label>
+							<input type="text" name="pri-email" id="pri-email" class="form-control">
+						</div>
 					</div>
 				</div>
-
-
+				</br>
+				<div class="row">
+					<hr style="border-width: 6.5px" />
+				</br>
+					<div class="col-md-3 col-md-offset-4">
+						<div class="form-group">
+							<button type="button" class="btn btn-danger" id="contacts-edit"> Edit Contacts </button>
+						</div>
+					</div>
+				</div>
 			</form>
 		</div>
+
+<div id="job-detail">
+	<h5><center><span class="label label-primary"> Job Details </span></center></h5>
+	</br>
+	<form id="job-form" role="form" action="" type="post" class="col col-md-12">
+		<div class="row">
+			<div class="col col-md-5">
+				<h5><span class="label label-default">Department</span></h5>
+				</br>
+				<div class="form-group">
+					<select class="selectpicker" id="depts" name="department"></select>
+				</div>
+			</div>
+		</div>
+		<hr style="border-width: 6.5px;" />
+		<div class="row">
+			<div class="col col-md-5">
+				<h5><span class="label label-default">Designation</span></h5>
+				</br>
+				<div class="form-group">
+					<select class="selectpicker" id="desg" name="desigation"></select>
+				</div>
+			</div>
+		</div>
+		<hr style="border-width: 6.5px;" />
+		<div class="row">
+			<div class="col col-md-5">
+				<h5><span class="label label-default">Employement Status</span></h5>
+				</br>
+				<div class="form-group">
+					<select class="selectpicker" id="emp-type" name="emp-type">
+						<option value="contract-basis">Contract Basis</option>
+						<option value="fulltime-contract">Full time contract</option>
+						<option value="fulltime-permanat">Full time Permanant</option>
+						<option value="probation">Probation</option>
+						<option value="parttime-intern">Part time Internship</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<hr style="border-width: 6.5px;" />
+		<div class="row">
+			<div class="col col-md-5">
+				<h5><span class="label label-default">Joining date</span></h5>
+				</br>
+				<div class="form-group">
+					<div class="input-group date" id="jd1" date-date-format="mm-dd-yyyy">
+						<input type="text" readonly="readonly" class="form-control datepicker" name="join-date"/>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr style="border-width: 6.5px;" />
+		<div class="row">
+			<div class="col col-md-5">
+				<h5><span class="label label-default">Location</span></h5>
+				</br>
+				<div class="form-group">
+					<select class="selectpicker" id="job-location" name="job-location">
+						<option value="HQ">Ahmedabad - HQ</option>
+						<option value="bangalore">Bangalore</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<hr style="border-width: 6.5px;" />
+		</br>
+		<div class="row">
+			<div class="col-md-3 col-md-offset-5">
+				<div class="form-group">
+					<button id="job-edit" type="" class="btn btn-danger"> Edit Job Details</button>
+				</div>
+			</div>
+		</div>
+
+	</form>
+</div>
+
+<div id="reporting-detail">
+	<h5><center><span class="label label-primary"> Reporting Details </span></center></h5>
+	</br>
+		<div class="row">
+			<div class="col-md-10">
+				<div class="form-group">
+					<table class="table table-bordered">
+						<thead>
+							<th>Reporting To</th>
+							<th>Type</th>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>	
+		<div class="row" id="add-delete-super-buttons">
+			<div class="col-md-1 col-md-offset-1">
+				<div class="form-group">
+					<button id="add-supervisor" type="button" class="btn btn-success">Add</button>
+				</div>
+			</div>
+
+			<div class="col-md-1">
+				<div class="form-group">
+					<button id="delete-supervisor" type="button" class="btn btn-danger">Delete</button>
+				</div>
+			</div>
+		</div>
+		<hr style="border-width: 6.5px;" />
+		</br>
+		<div class="row" id="supervisor-selects">
+			<form id="job-form" role="form" action="" type="post" class="col col-md-12">
+				<div class="row">
+					<div class="col col-md-5">
+						<h5><span class="label label-default">Select supervisor</span></h5>
+						</br>
+						<div class="form-group">
+							<input type="text" id="supervisor-name" name="supervisor-name" class="form-control" placeholder="Type in supervisor name" data-provide="typeahead">
+						</div>
+						</br>
+						<h5><span class="label label-default">Type</span></h5>
+						</br>
+						<div class="form-group">
+							<select class="selectpicker" id="reporting-type" name="reporting-type"></select>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" id="save-cancell-super-buttons">
+					<div class="col-md-1 col-md-offset-1">
+						<div class="form-group">
+							<button id="save-supervisor" type="button" class="btn btn-success">Add</button>
+						</div>
+					</div>
+
+					<div class="col-md-1">
+						<div class="form-group">
+							<button id="cancel-supervisor" type="button" class="btn btn-danger">Cancel</button>
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>	
+
+</div>
+
 	</div>
 </div>
 
