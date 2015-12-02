@@ -2,6 +2,29 @@
 
 {% block js_block %}
 
+<style>
+
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+</style>
+
 <script type="text/javascript">
 $(function() {
 validateNewEmployeeForm();
@@ -17,44 +40,72 @@ $('.datepicker').datepicker();
 {% block form_block %}
 
 <div class="container">
+	{% if messages %}
+	{% for message in messages %}
+	<ul>
+		<strong>{% if message.tags %}<div class="col-md-8 col-md-offset-2 alert alert-{{ message.tags }}"> {% endif %} {{ message }}</div></strong>
+	</ul>
+	{% endfor %}
+	</br>
+	{% endif %}
 	<form role="form" method="post" id="newempform" action=""> {% csrf_token %}
-		<input type="hidden" name="employee_code" id="emp_code" value="{{ employee_code }}" />
+		<div class="row">
+			</br>
+			<h5><span class="label label-default col-md-offset-4"> Employee ID </span></h5>
+			</br>
+			<div class="col-md-3 col-md-offset-4">
+				<div class="form-group">
+					<div class="inner-addon left-addon date" data-date-format="yyyy-mm-dd">
+						<i class="glyphicon glyphicon-ok"></i>
+						<input class="form-control" readonly="readonly" name="employee_code" id="emp_code" value="{{ emp_pk }}" />
+					</div>
+				</div>
+			</div>
+		</div>
+		</br>
+		<hr style="background-width=6.5ps;" />
 		<div class="row">
 			<h5><span class="label label-default"> Employee Personal Details </span></h5>
 			</br>
 			<div class="col col-md-3">
 				<div class="form-group">
-					<input type="text" class="form-control" name="firstname" placeholder="Firstname">
+					<div class="inner-addon left-addon">
+						<i class="glyphicon glyphicon-user"></i>
+						<input type="text" class="form-control" name="firstname" placeholder="Firstname">
+					</div>
 				</div>
 			</div>
 
 			<div class="col col-md-3">
 				<div class="form-group">
-					<input type="text" class="form-control" name="middlename" placeholder="Middlename">
+					<div class="inner-addon left-addon">
+						<i class="glyphicon glyphicon-user"></i>
+						<input type="text" class="form-control" name="middlename" placeholder="Middlename">
+					</div>
 				</div>
 			</div>
 
 			<div class="col col-md-3">
 				<div class="form-group">
-					<input type="text" class="form-control" name="lastname" placeholder="Lastname">
+					<div class="inner-addon left-addon">
+						<i class="glyphicon glyphicon-user"></i>
+						<input type="text" class="form-control" name="lastname" placeholder="Lastname">
+					</div>
 				</div>
 			</div>
 
 			<div class="col col-md-3">
 				<div class="form-group">
-					<div class="input-group date" id="dp1" data-date-format="dd-mm-yyyy">
+					<div class="inner-addon left-addon">
+						<i class="glyphicon glyphicon-calendar"></i>
 						<input type="text" class="form-control datepicker" name="dob" readonly="readonly" placeholder="Date of Birth" id="dobpicker">
-                    		<span class="input-group-addon">
-                        		<span class="glyphicon glyphicon-calendar"></span>
-                    		</span>
                     	</input>
                 	</div>
 				</div>
 			</div>
 		</div>
-
-		<hr style="border-width: 6.5px" />
 		<!--
+		<hr style="border-width: 6.5px" />
 
 		<div class="row">
 			<h5><span class="label label-default"> Department, Designation &amp; Project</span></h5>
@@ -80,7 +131,7 @@ $('.datepicker').datepicker();
 
 
 		<hr style="border-width: 6.5px" />
-		-->
+
 		<div class="row">
 			<h5><span class="label label-default"> Joining date &amp; Previous Organization </span></h5>
 			</br> 
@@ -111,15 +162,16 @@ $('.datepicker').datepicker();
     		</div>
     		</br>
 
-    		<div class="col-md-3 col-md-offset-2">
-    			<div class="form-group">
-    				<button class="btn btn-success"><b> Get on Board ! </b></button>
-    			</div>
-    		</div>
-
     		<div class="col-md-2 col-md-offset-2">
     			<div class="form-group">
     				<button class="btn btn-danger" disabled><b> Edit Details</b></button>
+    			</div>
+    		</div>
+    		-->
+    		</br></br>
+    		<div class="col-md-3 col-md-offset-5">
+    			<div class="form-group">
+    				<button class="btn btn-success"><b> Get on Board ! </b></button>
     			</div>
     		</div>
     	</div>
