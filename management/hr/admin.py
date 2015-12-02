@@ -12,3 +12,4 @@ class CoreDeparDesigAdmin(admin.ModelAdmin):
 	list_filter = ('department', 'designation')
 
 admin.site.register(CoreDeparDesig, CoreDeparDesigAdmin)
+admin.site.register(CoreEmployee)
