@@ -1,13 +1,18 @@
 {% extends 'base/BASE.html' %}
 
 {% block js_block %}
+{% load staticfiles %}
 
+<script src="{% static 'js/insert_full_details.js' %}"></script>
 <script type="text/javascript">
-$('.selectpicker').selectpicker();
 //$.backstretch("https://qsf.is.quoracdn.net/-2f32a993187981f4.png", {speed: 250});
+var fname = '{{ fname }}'; var mname = '{{ mname }}'; var lname = '{{ lname }}';
 
 $(function(){
+	load_personal_details();
+
 	$('.datepicker').datepicker();
+	$('.selectpicker').selectpicker();
 	$('#contact-detail, #job-detail, #reporting-detail').hide();
 	$('#supervisor-selects').hide();
 	//$('#job-detail').hide();
@@ -179,9 +184,17 @@ $('#supervisor-name').typeahead({
 						</div>
 				</div>
 			</br>
-				<div class="col-md-3 col-md-offset-4">
+				<div class="col-md-7 col-md-offset-3">
+					<div class="row">
 					<div class="form-group">
-						<button type="button" class="btn btn-danger" id="personal-edit"> Edit Details </button>
+						<button type="button" class="btn btn-danger" id="personal-edit"><strong> Edit Details </strong></button>
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-success" id="personal-edit-save"><strong> Save Details </strong></button>
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-default" id="personal-edit-cancel"><strong> Cancel </strong></button>
+					</div>
 					</div>
 				</div>
 
