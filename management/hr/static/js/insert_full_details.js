@@ -30,6 +30,10 @@ function edit_and_save_personal_details(){
 
     $('#personal-edit-save').on('click', function(){
         $('#loading').show();
+        var pathname = window.location.pathname;
+        var intermediate = pathname.split('/hr/full-employee-info/')[1]
+        calling_empl_id = intermediate.slice('/')[0]
+        alert(calling_empl_id);
         drv_lcn_number = $('#licence-num').val();
         lsn_expiry = $('#drv-exp-picker').val();
         mar_status = $('#marital-status option:selected').text();
@@ -37,9 +41,16 @@ function edit_and_save_personal_details(){
 
         $.ajax({
             type: 'POST',
-            url: 'api/ajax/personal/update/',
+            url: '/hr/api/ajax/personal/update/',
             data: {
-
+                'empl_id': calling_empl_id,
+                'drv_lcn_number': drv_lcn_number,
+                'lsn_expiry': lsn_expiry,
+                'mar_status': mar_status,
+                'gender': gender,
+            },
+            success: function(data){
+                $('#loading').hide();
             },
 
         });
