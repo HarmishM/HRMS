@@ -3,13 +3,37 @@
 {% block js_block %}
 {% load staticfiles %}
 
+<style>
+#loading {
+   width: 100%;
+   height: 100%;
+   top: 0px;
+   left: 0px;
+   position: fixed;
+   display: block;
+   opacity: 0.8;
+   background-color: #fff;
+   z-index: 99;
+   text-align: center;
+}
+
+#loading-image {
+    margin-left: auto;
+    margin-right: auto
+}
+</style>
+
+
 <script src="{% static 'js/insert_full_details.js' %}"></script>
 <script type="text/javascript">
 //$.backstretch("https://qsf.is.quoracdn.net/-2f32a993187981f4.png", {speed: 250});
 var fname = '{{ fname }}'; var mname = '{{ mname }}'; var lname = '{{ lname }}';
+var licenceNum = '{{ lic_number }}'; var divingExpiry = '{{ lic_expiry }}';
 
 $(function(){
+    $('#loading').hide();
 	load_personal_details();
+	edit_and_save_personal_details();
 
 	$('.datepicker').datepicker();
 	$('.selectpicker').selectpicker();
@@ -18,7 +42,7 @@ $(function(){
 	//$('#job-detail').hide();
 	$("#sidebar-li ul li a").click(function(e){
 		theDiv = $(this).attr("href");
-		//alert(theDiv);
+		// alert(theDiv);
 		if ($('#personal-edit').is(":visible")){
 			existtingDiv = '#personal-detail';
 		}
@@ -153,7 +177,7 @@ $('#supervisor-name').typeahead({
 					<div class="col-md-4 col-md-offset-1">
 						<div class="form-group">
 							<div class="input-group date" data-date-format="mm/dd/yyyy">
-								<input type="text" class="form-control datepicker" name="licen-expiry" readonly="readonly" placeholder="Licence Expiry" id="dobpicker" />
+								<input type="text" class="form-control datepicker" name="licen-expiry" readonly="readonly" placeholder="Licence Expiry" id="drv-exp-picker" />
                     				<span class="input-group-addon">
                         				<span class="glyphicon glyphicon-calendar"></span>
                     				</span>
@@ -168,17 +192,17 @@ $('#supervisor-name').typeahead({
 					<h5><span class="label label-default">Marital status &amp; Gender</span></h5>
 				</br>
 						<div class="radio-inline">
-  							<label><input type="radio" name="optradio">Female</label>
+  							<label><input type="radio" name="optradio" value="Female">Female</label>
 						</div>
 						<div class="radio-inline">
-  							<label><input type="radio" name="optradio">Male</label>
+  							<label><input type="radio" name="optradio" value="Male">Male</label>
 						</div>
 						<div class="col col-md-4">
 							<div class="form-group">
 								<select class="selectpicker" name="marital-status" id="marital-status">
-									<option value="single">Single</option>
-									<option value="married">Married</option>
-									<option value="other">Other</option>
+									<option value="Single">Single</option>
+									<option value="Married">Married</option>
+									<option value="Other">Other</option>
 								</select>
 							</div>
 						</div>
@@ -186,6 +210,9 @@ $('#supervisor-name').typeahead({
 			</br>
 				<div class="col-md-7 col-md-offset-3">
 					<div class="row">
+                        <div id="loading">
+                            <img id="loading-image" src="{% static 'img/jar-loading.gif' %}" />
+                        </div>
 					<div class="form-group">
 						<button type="button" class="btn btn-danger" id="personal-edit"><strong> Edit Details </strong></button>
 					</div>
