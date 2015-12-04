@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from hr.models import *
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -71,9 +71,33 @@ def full_employee_info(request, emp_id):
         full_employee_cntxt.update(personal_cntx)
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
 
+
 ''' update personal details recieved via Ajax call '''
 
 
+@csrf_exempt
 def update_personal_details(request):
     if request.is_ajax() and request.method == 'POST':
-        print 'hitt Ajax now'
+        ''' Get employeeID first from the Ajax post req. If its not there then everything is vain, so
+         return "Bad request" reponse, its again a double check, and not likely to happn '''
+
+        try:
+            request_employee_id = request.POST.get('empl_id')
+        except KeyError as ex:
+            return HttpResponse('<h3> Something bad happned </h3>')
+        driving_licence_number = request.POST.get('drv_lcn_number')
+        driving_licence_expiry = request.POST.get('lsn_expiry')
+        marital_status = request.POST.get('mar_status')
+        gender = request.POST.get('gender')
+
+        ''' get the requested employee and set its properties received from request,
+         double checking agin here, hard to happn '''
+
+        try:
+            obj_employee = CoreEmployee.objects.get(empl_id=request_employee_id)
+        except CoreEmployee.DoesNotExist as e:
+            return HttpResponse('<h3> Employee with this ID is not found </h3>')
+
+        obj_employee.empl_driving_licence_number = driving_licence_number
+        obj_employee.
+        return HttpResponse('Voila')
