@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from datetime import datetime
 from django.http import HttpResponse
+from utils import *
 
 
 @csrf_protect
