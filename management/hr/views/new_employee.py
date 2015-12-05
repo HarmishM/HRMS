@@ -16,17 +16,14 @@ def feed_new_empl_details(request):
             curr_pk = curr_pk_obj.empl_id + 1
         except IndexError:
             curr_pk = 1
-        # print curr_pk
         contxt = {'emp_pk': '#{0}'.format(str(curr_pk))}
         return render(request, 'new-employee/feed_employee.html', contxt)
     elif request.method == 'POST':
-        # print 'In Here POST'
         new_emp_id = (request.POST.get('employee_code')).split('#')[1]
         new_emp_firstname = request.POST.get('firstname')
         new_emp_middlename = request.POST.get('middlename')
         new_emp_lastname = request.POST.get('lastname')
         new_emp_dob = request.POST.get('dob')
-        # print new_emp_id, new_emp_firstname, new_emp_middlename, new_emp_lastname, new_emp_dob
         date_obj = datetime.strptime(new_emp_dob, '%m/%d/%Y')
         converted_date_obj = date_obj.strftime('%Y-%m-%d')
 
@@ -47,7 +44,7 @@ def feed_new_empl_details(request):
         obj.empl_dob = converted_date_obj
         obj.save()
 
-        return redirect(reverse('Full-employee-info', kwargs={'emp_id': new_emp_id}))
+        return redirect(reverse('Full-employee-info', kwargs = {'emp_id': new_emp_id}))
 
 
 ''' fetches the employee's personal details '''
@@ -55,7 +52,9 @@ def feed_new_empl_details(request):
 
 def _get_personal_details(emp_obj):
     personal_cntx = {'fname': emp_obj.empl_fname, 'mname': emp_obj.empl_mname, 'lname': emp_obj.empl_lname,
-                     'dob': emp_obj.empl_dob}
+                     'dob': emp_obj.empl_dob, 'lic_number': emp_obj.empl_driving_licence_number,\
+                     'lic_expiry': emp_obj.driving_licence_expiry, 'marital_status': emp_obj.empl_marital_status,
+                     'gender': emp_obj.empl_gender}
     return personal_cntx
 
 
@@ -67,7 +66,9 @@ def full_employee_info(request, emp_id):
             emp_obj = CoreEmployee.objects.get(empl_id=emp_id)
         except CoreEmployee.DoesNotExist:
             return HttpResponse('<h3> Employee with this ID is not found </h3>')
+
         '''Start getting the details of employee for received emp_id'''
+
         personal_cntx = _get_personal_details(emp_obj)
         full_employee_cntxt.update(personal_cntx)
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
@@ -86,10 +87,15 @@ def update_personal_details(request):
             request_employee_id = request.POST.get('empl_id')
         except KeyError as ex:
             return HttpResponse('<h3> Something bad happned </h3>')
+        firstname = request.POST.get('fname')
+        middlename = request.POST.get('mname')
+        lastname = request.POST.get('lname')
+        print firstname, middlename, lastname
         driving_licence_number = request.POST.get('drv_lcn_number')
         driving_licence_expiry = request.POST.get('lsn_expiry')
         marital_status = request.POST.get('mar_status')
         gender = request.POST.get('gender')
+        #print driving_licence_number, driving_licence_expiry, marital_status, gender
 
         ''' get the requested employee and set its properties received from request,
          double checking agin here, hard to happn '''
@@ -97,8 +103,21 @@ def update_personal_details(request):
         try:
             obj_employee = CoreEmployee.objects.get(empl_id=request_employee_id)
         except CoreEmployee.DoesNotExist as e:
-            return HttpResponse('<h3> Employee with this ID is not found </h3>')
-
-        obj_employee.empl_driving_licence_number = driving_licence_number
-        obj_employee.
-        return HttpResponse('Voila')
+            return HttpResponse('<h3> Employee with this ID not found </h3>')
+        obj_employee.empl_fname = firstname
+        print firstname
+        obj_employee.empl_mname = middlename
+        obj_employee.empl_lname = lastname
+        if driving_licence_number not in ABSURD_VALUES:
+            obj_employee.empl_driving_licence_number = driving_licence_number
+        if driving_licence_expiry not in ABSURD_VALUES:
+            obj_employee.driving_licence_expiry = convert_date_for_backend(driving_licence_expiry)
+        if marital_status not in ABSURD_VALUES:
+            obj_employee.empl_marital_status = marital_status
+        if gender is not None:
+            obj_employee.empl_gender = gender
+        else:
+            obj_employee.empl_gender = None
+        obj_employee.save()
+        print 'callleddddddd'
+        return HttpResponse('Saved Successfully')

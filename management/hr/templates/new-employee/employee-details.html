@@ -11,30 +11,36 @@
    left: 0px;
    position: fixed;
    display: block;
-   opacity: 0.8;
-   background-color: #fff;
+   opacity: 2;
    z-index: 99;
    text-align: center;
+    background-color: 'yellow';
 }
 
 #loading-image {
+       width: 90%;
+   height: 110%;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
 }
+
 </style>
 
 
-<script src="{% static 'js/insert_full_details.js' %}"></script>
+<script src="{% static 'js/insert_full_details_personal.js' %}"></script>
+<script src="{% static 'js/insert_address_details.js' %}"></script>
 <script type="text/javascript">
-//$.backstretch("https://qsf.is.quoracdn.net/-2f32a993187981f4.png", {speed: 250});
+
 var fname = '{{ fname }}'; var mname = '{{ mname }}'; var lname = '{{ lname }}';
-var licenceNum = '{{ lic_number }}'; var divingExpiry = '{{ lic_expiry }}';
+var dob = '{{ dob }}'; var marStatus = '{{ marital_status }}';
+var licenceNum = '{{ lic_number }}'; var divingExpiry = '{{ lic_expiry|date }}';
+var gender = '{{ gender }}';
 
 $(function(){
     $('#loading').hide();
 	load_personal_details();
 	edit_and_save_personal_details();
-
+    load_countries();
 	$('.datepicker').datepicker();
 	$('.selectpicker').selectpicker();
 	$('#contact-detail, #job-detail, #reporting-detail').hide();
@@ -43,7 +49,7 @@ $(function(){
 	$("#sidebar-li ul li a").click(function(e){
 		theDiv = $(this).attr("href");
 		// alert(theDiv);
-		if ($('#personal-edit').is(":visible")){
+		if ($('#personal-edit').is(":visible") || $('#personal-edit-save').is(":visible")){
 			existtingDiv = '#personal-detail';
 		}
 		if ($('#contacts-edit').is(":visible")){
@@ -130,7 +136,7 @@ $('#supervisor-name').typeahead({
 
 	<div id="form-container" class="col col-md-8">
 		<div id="personal-detail">
-			<center><h4><span class="label label-primary">Personal Details</span></h4></center>
+			<center><h5><span class="label label-primary">Personal Details</span></h5></center>
 			<form role="form" id="persdetail" action="" class="col col-md-12" method="post">
 				<div class="row">
 					<h5><span class="label label-default" style="padding-left:5px;"> Personal Details </span></h5>
@@ -151,7 +157,7 @@ $('#supervisor-name').typeahead({
 						</div>
 					</div>
 				</div>
-
+            <!--
 				<hr style="border-width: 6.5px" />
 			</br>
 				<div class="row">
@@ -163,6 +169,7 @@ $('#supervisor-name').typeahead({
 						</div>
 					</div>
 				</div>
+			-->
 
 				<hr style="border-width: 6.5px" />
 			</br>
@@ -192,14 +199,15 @@ $('#supervisor-name').typeahead({
 					<h5><span class="label label-default">Marital status &amp; Gender</span></h5>
 				</br>
 						<div class="radio-inline">
-  							<label><input type="radio" name="optradio" value="Female">Female</label>
+  							<label><input type="radio" name="optradio" id="marradio-female" value="Female">Female</label>
 						</div>
 						<div class="radio-inline">
-  							<label><input type="radio" name="optradio" value="Male">Male</label>
+  							<label><input type="radio" name="optradio" id="marradio-male" value="Male">Male</label>
 						</div>
 						<div class="col col-md-4">
 							<div class="form-group">
 								<select class="selectpicker" name="marital-status" id="marital-status">
+                                    <option value="None">Not Selected Yet</option>
 									<option value="Single">Single</option>
 									<option value="Married">Married</option>
 									<option value="Other">Other</option>
@@ -246,16 +254,22 @@ $('#supervisor-name').typeahead({
 							<input type="text" name="curr-add-2" id="curr-add-2" class="form-control">
 						</div>
 					</div>
-					<div class="col col-md-8">
+                    <div class="col col-md-8">
 						<div class="form-group">
-							<label for="curr-city">City</label>
-							<input type="text" name="curr-city" id="curr-city" class="form-control">
+							<label for="curr-country">Country</label>
+							<input type="text" name="curr-country" id="curr-country" class="form-control typeahead">
 						</div>
 					</div>
 					<div class="col col-md-8">
 						<div class="form-group">
 							<label for="curr-state">State/Province</label>
-							<input type="text" name="curr-state" id="curr-state" class="form-control">
+							<input type="text" name="curr-state" id="curr-state" class="form-control typeahead">
+						</div>
+					</div>
+					<div class="col col-md-8">
+						<div class="form-group">
+							<label for="curr-city">City</label>
+							<input type="text" name="curr-city" id="curr-city" class="form-control typeahead">
 						</div>
 					</div>
 					<div class="col col-md-5">

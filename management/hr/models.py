@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 
 class CoreEmployee(models.Model):
@@ -16,8 +15,8 @@ class CoreEmployee(models.Model):
     empl_pic = models.FileField(upload_to='employee_pics/', default=None)
     empl_driving_licence_number = models.CharField(max_length=30)
     driving_licence_expiry = models.DateField(null=True)
-    empl_marital_status = models.CharField(max_length=12)
-    empl_gender = models.CharField(max_length=10)
+    empl_marital_status = models.CharField(max_length=12, null=True)
+    empl_gender = models.CharField(max_length=10, null=True)
 
 
 class CoreDeparDesig(models.Model):
