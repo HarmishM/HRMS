@@ -23,15 +23,29 @@
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
 
+    #formwrapper {
+    background-color: white;
+    opacity: 1;
+    border:0.5px solid white;
+    box-sizing: border-box;
+    padding: 50px;
+    padding-top: 28px;
+    padding-bottom: 0px;
+    border-radius: 3px;
+    background: #fff;
+    border: 3px solid #dcdcdc;
+    box-shadow: 0 2px 4px 0 #dcdcdc;
+    }
+
 </style>
 
 <script type="text/javascript">
+$.backstretch("http://images8.alphacoders.com/396/396530.jpg", {speed: 550});
 $(function() {
-validateNewEmployeeForm();
-fill_departments_designations();
-$('.selectpicker').selectpicker();
-$('.datepicker').datepicker();
-
+    validateNewEmployeeForm();
+    fill_departments_designations();
+    $('.selectpicker').selectpicker();
+    $('.datepicker').datepicker();
 });
 
 </script>
@@ -46,28 +60,28 @@ $('.datepicker').datepicker();
 		<strong>{% if message.tags %}<div class="col-md-8 col-md-offset-2 alert alert-{{ message.tags }}"> {% endif %} {{ message }}</div></strong>
 	</ul>
 	{% endfor %}
-	</br>
 	{% endif %}
+    <div id="formwrapper" class="col-md-4 col-md-offset-4">
 	<form role="form" method="post" id="newempform" action=""> {% csrf_token %}
 		<div class="row">
+			<h5><span class="label label-primary"> Employee ID </span></h5>
 			</br>
-			<h5><span class="label label-default col-md-offset-4"> Employee ID </span></h5>
-			</br>
-			<div class="col-md-3 col-md-offset-4">
+			<div class="col-md-12">
 				<div class="form-group">
-					<div class="inner-addon left-addon date" data-date-format="yyyy-mm-dd">
+					<div class="inner-addon left-addon date">
 						<i class="glyphicon glyphicon-ok"></i>
 						<input class="form-control" readonly="readonly" name="employee_code" id="emp_code" value="{{ emp_pk }}" />
 					</div>
 				</div>
 			</div>
 		</div>
-		</br>
-		<hr style="background-width=6.5ps;" />
+		<hr style="background-width=6.5px;" />
 		<div class="row">
-			<h5><span class="label label-default"> Employee Personal Details </span></h5>
-			</br>
-			<div class="col col-md-3">
+			<h5><span class="label label-primary"> Employee Personal Details </span></h5>
+            </br>
+        </div>
+        <div class="row">
+			<div class="col-md-12">
 				<div class="form-group">
 					<div class="inner-addon left-addon">
 						<i class="glyphicon glyphicon-user"></i>
@@ -75,8 +89,9 @@ $('.datepicker').datepicker();
 					</div>
 				</div>
 			</div>
-
-			<div class="col col-md-3">
+        </div>
+            <div class="row">
+			<div class="col-md-12">
 				<div class="form-group">
 					<div class="inner-addon left-addon">
 						<i class="glyphicon glyphicon-user"></i>
@@ -84,8 +99,9 @@ $('.datepicker').datepicker();
 					</div>
 				</div>
 			</div>
-
-			<div class="col col-md-3">
+            </div>
+            <div class="row">
+			<div class="col-md-12">
 				<div class="form-group">
 					<div class="inner-addon left-addon">
 						<i class="glyphicon glyphicon-user"></i>
@@ -93,8 +109,9 @@ $('.datepicker').datepicker();
 					</div>
 				</div>
 			</div>
-
-			<div class="col col-md-3">
+            </div>
+            <div class="row">
+			<div class="col-md-12">
 				<div class="form-group">
 					<div class="inner-addon left-addon">
 						<i class="glyphicon glyphicon-calendar"></i>
@@ -102,7 +119,7 @@ $('.datepicker').datepicker();
                 	</div>
 				</div>
 			</div>
-		</div>
+                </br></br>
 		<!--
 		<hr style="border-width: 6.5px" />
 
@@ -168,11 +185,12 @@ $('.datepicker').datepicker();
     		</div>
     		-->
     		</br></br>
-    		<div class="col-md-3 col-md-offset-5">
+    		<div class="col-md-10 col-md-offset-3">
     			<div class="form-group">
-    				<button class="btn btn-success"><b> Get on Board ! </b></button>
+    				<button class="btn btn-primary"><b> Get on Board ! </b></button>
     			</div>
     		</div>
     	</div>
+        </div>
 
 {% endblock %}
