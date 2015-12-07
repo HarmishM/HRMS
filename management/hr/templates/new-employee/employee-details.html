@@ -29,6 +29,7 @@
 
 <script src="{% static 'js/insert_full_details_personal.js' %}"></script>
 <script src="{% static 'js/insert_address_details.js' %}"></script>
+<script src="{% static 'js/insert_job_details.js' %}"></script>
 <script type="text/javascript">
 
 var fname = '{{ fname }}'; var mname = '{{ mname }}'; var lname = '{{ lname }}';
@@ -41,6 +42,7 @@ $(function(){
 	load_personal_details();
 	edit_and_save_personal_details();
     load_countries();
+    disable_job_detail();
 	$('.datepicker').datepicker();
 	$('.selectpicker').selectpicker();
 	$('#contact-detail, #job-detail, #reporting-detail').hide();
@@ -55,7 +57,7 @@ $(function(){
 		if ($('#contacts-edit').is(":visible")){
 			existtingDiv = '#contact-detail';
 		}
-		if ($('#job-edit').is(":visible")){
+		if ($('#job-edit').is(":visible") || $('#job-edit-save').is(":visible")){
 			existtingDiv = '#job-detail';
 		}
 		if ($('#add-supervisor').is(":visible")){
@@ -364,15 +366,13 @@ $('#supervisor-name').typeahead({
 
 		<hr style="border-width: 6.5px;" />
 		<div class="row">
-			<div class="col col-md-5">
+			<div class="col col-md-3">
 				<h5><span class="label label-default">Joining date</span></h5>
 				</br>
 				<div class="form-group">
-					<div class="input-group date" id="jd1" date-date-format="mm-dd-yyyy">
-						<input type="text" readonly="readonly" class="form-control datepicker" name="join-date"/>
-						<span class="input-group-addon">
-							<span class="glyphicon glyphicon-calendar"></span>
-						</span>
+					<div class="inner-addon left-addon date" id="jd1">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                        <input type="text" class="form-control datepicker" id="join-date" name="join-date" placeholder="Joining date" readonly="readonly" />
 					</div>
 				</div>
 			</div>
@@ -395,12 +395,16 @@ $('#supervisor-name').typeahead({
 		<hr style="border-width: 6.5px;" />
 		</br>
 		<div class="row">
-			<div class="col-md-3 col-md-offset-5">
-				<div class="form-group">
-					<button id="job-edit" type="" class="btn btn-danger"> Edit Job Details</button>
-				</div>
-			</div>
-		</div>
+            <div class="form-group">
+                <button type="button" class="btn btn-danger" id="job-edit"><strong> Edit Details </strong></button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-success" id="job-edit-save"><strong> Save Details </strong></button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-default" id="job-edit-cancel"><strong> Cancel </strong></button>
+            </div>
+        </div>
 
 	</form>
 </div>
