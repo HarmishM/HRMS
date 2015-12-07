@@ -14,6 +14,43 @@
 	<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 	<script src="{% static 'js/bootstrap3-typeahead.min.js' %}"></script>
     <script src="{% static 'js/backstretch.js' %}"></script>
+
+	<style>
+
+.inner-addon {
+    position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+    #formwrapper {
+    background-color: white;
+    opacity: 1;
+    border:0.5px solid white;
+    box-sizing: border-box;
+    padding: 50px;
+    padding-top: 28px;
+    padding-bottom: 0px;
+    border-radius: 3px;
+    background: #fff;
+    border: 3px solid #dcdcdc;
+    box-shadow: 0 2px 4px 0 #dcdcdc;
+    }
+
+</style>
 </head>
 
 <body>

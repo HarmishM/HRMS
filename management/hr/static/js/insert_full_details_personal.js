@@ -12,6 +12,7 @@ function load_personal_details() {
 		if(gender === 'Male') {$('#marradio-male').prop('checked', true)};
 		if(gender === 'Female') {$('#marradio-female').prop('checked', true)};
 		$('#marital-status').prop('disabled', true);
+		$('.selectpicker').selectpicker('refresh');
 
 		$('#firstname, #middlename, #lastname, #licence-num, #drv-exp-picker').prop('disabled', true);
 		$('#marradio-male, #marradio-female').prop('disabled', true);
@@ -21,7 +22,7 @@ function load_personal_details() {
 	$('#personal-edit').on('click', function(){
 		$('#firstname, #middlename, #lastname, #licence-num, #drv-exp-picker').prop('disabled', false);
 		$('#marradio-male, #marradio-female').prop('disabled', false);
-		$('#marital-status').attr('disabled', false);
+		$('#marital-status').prop('disabled', false);
 		$('#marital-status').selectpicker('refresh');
 
 		$('#personal-edit').hide();
