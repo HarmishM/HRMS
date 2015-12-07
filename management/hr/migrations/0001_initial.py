@@ -39,6 +39,22 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='CoreEmployeeContact',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('addr_line1', models.CharField(max_length=60, null=True, blank=True)),
+                ('addr_line2', models.CharField(max_length=60, null=True, blank=True)),
+                ('city', models.CharField(max_length=30, null=True, blank=True)),
+                ('state', models.CharField(max_length=30, null=True, blank=True)),
+                ('country', models.CharField(max_length=30, null=True, blank=True)),
+                ('zip_code', models.CharField(max_length=12, null=True, blank=True)),
+                ('home_phone', models.CharField(max_length=15, null=True, blank=True)),
+                ('mobile', models.CharField(max_length=15, null=True, blank=True)),
+                ('personal_email', models.EmailField(max_length=70, null=True, blank=True)),
+                ('employee', models.ForeignKey(to='hr.CoreEmployee')),
+            ],
+        ),
+        migrations.CreateModel(
             name='ProjectManager',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),

@@ -14,33 +14,47 @@
    opacity: 2;
    z-index: 99;
    text-align: center;
-    background-color: 'yellow';
 }
 
 #loading-image {
-       width: 90%;
-   height: 110%;
+    width: 90%;
+    height: 110%;
     margin-left: auto;
     margin-right: auto;
 }
 
 </style>
 
-
+<script src="{% static 'js/helper_funcs.js' %}"></script>
 <script src="{% static 'js/insert_full_details_personal.js' %}"></script>
-<script src="{% static 'js/insert_address_details.js' %}"></script>
+<script src="{% static 'js/insert_contact_details.js' %}"></script>
 <script type="text/javascript">
+
+// Assign template context variables to JS variables
+// Load Personal details context variables
 
 var fname = '{{ fname }}'; var mname = '{{ mname }}'; var lname = '{{ lname }}';
 var dob = '{{ dob }}'; var marStatus = '{{ marital_status }}';
 var licenceNum = '{{ lic_number }}'; var divingExpiry = '{{ lic_expiry|date }}';
 var gender = '{{ gender }}';
 
+// Load Contacts details context variables
+
+var addr1 = '{{ 0addrs_line1 }}';
+
+// Page on load ffuction i.e. document.ready
+
 $(function(){
-    $('#loading').hide();
-	load_personal_details();
-	edit_and_save_personal_details();
+    $('#loading').hide(); // hide page loading overlay
+
+    // Now call JS functions that'll take care of enable-disable controls
+
+	load_personal_details(); post_personal_info();
+	load_contacts_details(); post_contact_info();
+
     load_countries();
+
+
 	$('.datepicker').datepicker();
 	$('.selectpicker').selectpicker();
 	$('#contact-detail, #job-detail, #reporting-detail').hide();
@@ -52,7 +66,7 @@ $(function(){
 		if ($('#personal-edit').is(":visible") || $('#personal-edit-save').is(":visible")){
 			existtingDiv = '#personal-detail';
 		}
-		if ($('#contacts-edit').is(":visible")){
+		if ($('#contact-edit').is(":visible") || $('#contact-edit-save').is(":visible")){
 			existtingDiv = '#contact-detail';
 		}
 		if ($('#job-edit').is(":visible")){
@@ -236,6 +250,7 @@ $('#supervisor-name').typeahead({
 
 			</form>
 		</div>
+        <!--                                     CONTACTS DETAILS                       -->
 <div id="contact-detail">
 	<center><h4><span class="label label-primary">Contact Details</span></h4></center>
 	<form role="form" action="" method="post" class="col col-md-12">
@@ -314,9 +329,17 @@ $('#supervisor-name').typeahead({
 					<hr style="border-width: 6.5px" />
 				</br>
 					<div class="col-md-3 col-md-offset-4">
-						<div class="form-group">
-							<button type="button" class="btn btn-danger" id="contacts-edit"> Edit Contacts </button>
-						</div>
+					<div class="row">
+					    <div class="form-group">
+						    <button type="button" class="btn btn-danger" id="contact-edit"><strong> Edit Details </strong></button>
+					    </div>
+					    <div class="form-group">
+						    <button type="button" class="btn btn-success" id="contact-edit-save"><strong> Save Details </strong></button>
+					    </div>
+					    <div class="form-group">
+						    <button type="button" class="btn btn-default" id="contact-edit-cancel"><strong> Cancel </strong></button>
+					    </div>
+					</div>
 					</div>
 				</div>
 			</form>
