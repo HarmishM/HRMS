@@ -3,7 +3,7 @@ from datetime import datetime
 
 ''' converts date obtained from HTML to datetime object for storing in DB '''
 
-ABSURD_VALUES = ['undefined', 'null', None]
+ABSURD_VALUES = ['undefined', 'null', 'None', '', None, 'Not Selected Yet']
 
 
 def convert_date_for_backend(date_obj):

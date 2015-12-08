@@ -71,7 +71,15 @@ def _get_contact_details(emp_id):
     else:
         for obj in emp_contact_objs:
             key_prefix = list(emp_contact_objs).index(obj)
-            contacts_cntx = {'{}addrs_line1'.format(key_prefix): obj.addr_line1}
+            contacts_cntx = {'{}addrs_line1'.format(key_prefix): obj.addr_line1,
+                             '{}addrs_line2'.format(key_prefix): obj.addr_line2,
+                             '{}addrs_city'.format(key_prefix): obj.city,
+                             '{}addrs_state'.format(key_prefix): obj.state,
+                             '{}addrs_country'.format(key_prefix): obj.country,
+                             '{}addrs_zip'.format(key_prefix): obj.zip_code,
+                             '{}home_phone'.format(key_prefix): obj.home_phone,
+                             '{}mobile'.format(key_prefix): obj.mobile,
+                             '{}pri_email'.format(key_prefix): obj.personal_email}
             full_contact_cntx.update(contacts_cntx)
     return full_contact_cntx
 
@@ -94,7 +102,6 @@ def full_employee_info(request, emp_id):
         contacts_cntx = _get_contact_details(emp_id)
         full_employee_cntxt.update(personal_cntx)
         full_employee_cntxt.update(contacts_cntx)
-        print full_employee_cntxt
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
 
 

@@ -19,3 +19,4 @@ class CoreEmployeeContactAdmin(admin.ModelAdmin):
 admin.site.register(CoreDeparDesig, CoreDeparDesigAdmin)
 admin.site.register(CoreEmployee)
 admin.site.register(CoreEmployeeContact, CoreEmployeeContactAdmin)
+admin.site.register(CoreEmployeeJob)

@@ -4,7 +4,9 @@ function load_contacts_details(){
     function restore_contacts(){
         // load input controls with backend context variales and disable controls
 
-        $('#curr-add-1').val(addr1);
+        $('#curr-add-1').val(addr1); $('#curr-add-2').val(addr2); $('#curr-city').val(city);
+        $('#curr-state').val(state); $('#curr-country').val(country); $('#curr-zip-code').val(zip);
+        $('#curr-home-phone').val(homePhone); $('#curr-mobile').val(mobile); $('#pri-email').val(primEmail);
 
         $('#curr-add-1,#curr-add-2,#curr-country,#curr-state,#curr-city,#curr-zip-code').prop('disabled', true);
         $('#curr-home-phone,#curr-mobile,#pri-email').prop('disabled', true);
@@ -62,8 +64,9 @@ function post_contact_info(){
     $('#loading').show();
     var empl_id = getEmployeeIdFromURL();
     var addLine1 = $('#curr-add-1').val(); var addLine2 = $('#curr-add-2').val();
-    var city = $('#curr-city').val(); var state = $('#curr-state').val(); var country = $('#curr-country').val();
-    var zipCode = $('#curr-zip-code').val();
+    var addrCity = $('#curr-city').val(); var addrState = $('#curr-state').val(); var addrCountry = $('#curr-country').val();
+    var addrZipCode = $('#curr-zip-code').val(); var homePhoneNumber = $('#curr-home-phone').val(); var mobilePhone = $('#curr-mobile').val();
+    var priEmailAddress = $('#pri-email').val();
 
     $.ajax({
         url: '/hr/api/ajax/contacts/update/',
@@ -71,11 +74,13 @@ function post_contact_info(){
         data: {
             'empl_id': empl_id,
             'add_line1': addLine1, 'add_line2': addLine2,
-            'city': city, 'state': state, 'country': country,
-            'zip': zipCode,
+            'city': addrCity, 'state': addrState, 'country': addrCountry,
+            'zip': addrZipCode, 'home_phone': homePhoneNumber, 'mobile': mobilePhone,
+            'pri_email': priEmailAddress
         },
         success: function(data){
-            addr1 = addLine1;
+            addr1 = addLine1; city = addLine2; city = addrCity;; state = addrState; coutry = addrCountry;
+            zip = addrZipCode; homePhone = homePhoneNumber; mobile = mobilePhone; primEmail = priEmailAddress;
             $('#loading').hide();
             load_contacts_details();
         }
