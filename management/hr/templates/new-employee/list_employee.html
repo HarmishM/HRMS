@@ -1,0 +1,122 @@
+{% extends 'base/BASE.html' %}
+
+{% block js_block %}
+{% load staticfiles %}
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+table {
+  color: #333;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 40px;
+  border-spacing: 0;
+  border: 2px solid grey;
+  width: 500px;
+  margin: 50px auto;
+    background: white;
+}
+
+thead tr:first-child {
+  background: grey;
+  color: #fff;
+  border: none;
+}
+
+th {font-weight: bold;}
+th:first-child, td:first-child {padding: 0 15px 0 20px;}
+
+thead tr:last-child th {border-bottom: 3px solid #ddd;}
+
+tbody tr:hover {background-color: #ffeeff;}
+tbody tr:last-child td {border: none;}
+tbody td {border-bottom: 1px solid #ddd;}
+
+td:last-child {
+  text-align: left;
+  padding-right: 10px;
+}
+
+.button {
+  color: #696969;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.alterar:hover {
+  color: #0a79df;
+}
+
+.excluir:hover {
+  color: #dc2a2a;
+}
+.filter-table .quick { margin-left: 0.5em; font-size: 0.8em; text-decoration: none; }
+.fitler-table .quick:hover { text-decoration: underline; }
+td.alt { background-color: #ffc; background-color: rgba(255, 255, 0, 0.2); }
+
+</style> <!-- or put the styling in your stylesheet -->
+
+{% endblock %}
+
+{% block content %}
+
+<script>
+    $(function(){
+        $('#data-table').filterTable();
+        $('input').addClass('form-control');
+    });
+    $.backstretch("{% static 'img/Manhattan-Bridge-13.jpg' %}", {speed: 550});
+</script>
+
+<div class="container issue-table">
+    <table class="table" id="data-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Contact Numbers</th>
+            <th>Department</th>
+            <th>Designation</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for empl in cnt %}
+        <tr>
+            <td><center><a href="/hr/full-employee-info/{{ empl.empl_id }}">{{ empl.empl_id }}</a></center></td>
+            <td><a href="/hr/full-employee-info/{{ empl.empl_id }}">{{ empl.fname }}</a></td>
+            <td>{{ empl.lname }}</td>
+            {% if empl.contacts %}
+                <td><ul>
+                {% for c in empl.contacts %}
+                    {{ c.mobile }}, {{ c.home }}
+                {% endfor %}
+                </ul></td>
+            {% else %}
+                <td></td>
+            {% endif %}
+
+            {% if empl.jobs %}
+                {% for cc in empl.jobs %}
+                    <td>{{ cc.dprt }}</td>
+                    <td>{{ cc.desg }}</td>
+                {% endfor %}
+            {% else %}
+                <td></td>
+                <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

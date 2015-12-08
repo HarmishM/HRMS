@@ -21,7 +21,7 @@ class CoreEmployee(models.Model):
 
 
 class CoreEmployeeContact(models.Model):
-    employee = models.ForeignKey(CoreEmployee)
+    employee = models.ForeignKey(CoreEmployee,related_name='employees_contact')
     addr_line1 = models.CharField(max_length=60, null=True, blank=True)
     addr_line2 = models.CharField(max_length=60, null=True, blank=True)
     city = models.CharField(max_length=30, null=True, blank=True)
