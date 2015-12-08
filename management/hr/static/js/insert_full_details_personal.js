@@ -6,6 +6,7 @@ function load_personal_details() {
 
 	function restore_personal()	{
 		$('#personal-edit').show(); $('#personal-edit-save, #personal-edit-cancel').hide();
+
 		$('#firstname').val(fname); $('#middlename').val(mname); $('#lastname').val(lname);
 		$('#licence-num').val(licenceNum); $('#drv-exp-picker').val(divingExpiry == 'None' ? ' Not Entered Yet' : divingExpiry);
 		$('#marital-status').val(marStatus);

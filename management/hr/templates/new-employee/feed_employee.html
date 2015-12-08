@@ -1,6 +1,7 @@
 {% extends 'base/BASE.html' %}
 
 {% block js_block %}
+{% load staticfiles %}
 
 <style>
 
@@ -26,7 +27,7 @@
 </style>
 
 <script type="text/javascript">
-$.backstretch("http://images8.alphacoders.com/396/396530.jpg", {speed: 550});
+$.backstretch("{% static 'img/396530.jpg' %}", {speed: 550});
 $(function() {
     validateNewEmployeeForm();
     $('.selectpicker').selectpicker();

@@ -29,16 +29,28 @@ def update_job_details(request):
         ''' we don't wanna insert None, undefined any sort of stupid values,
             so check if any of the recieved values are amongst such... '''
 
-        if empl_dept not in ABSURD_VALUES:
-            empl_obj.empl_department = empl_dept
-        if empl_desig not in ABSURD_VALUES:
-            empl_obj.empl_designation = empl_desig
-        if empl_job_type not in ABSURD_VALUES:
-            empl_obj.empl_job_type = empl_job_type
+        if empl_dept not in ABSURD_VALUES_JOB:
+            if empl_dept == 'Not Selected Yet':
+                empl_obj.empl_department = None
+            else:
+                empl_obj.empl_department = empl_dept
+        if empl_desig not in ABSURD_VALUES_JOB:
+            if empl_desig == 'Not Selected Yet':
+                empl_obj.empl_designation = None
+            else:
+                empl_obj.empl_designation = empl_desig
+        if empl_job_type not in ABSURD_VALUES_JOB:
+            if empl_job_type == 'Not Selected Yet':
+                empl_obj.empl_job_type = None
+            else:
+                empl_obj.empl_job_type = empl_job_type
         if empl_join_date not in ABSURD_VALUES:
             empl_obj.empl_join_date = convert_date_for_backend(empl_join_date)
-        if empl_job_loc not in ABSURD_VALUES:
-            empl_obj.empl_job_location = empl_job_loc
+        if empl_job_loc not in ABSURD_VALUES_JOB:
+            if empl_job_loc == 'Not Selected Yet':
+                empl_obj.empl_job_location = None
+            else:
+                empl_obj.empl_job_location = empl_job_loc
 
         ''' finally save the object with field values set above '''
 

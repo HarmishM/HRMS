@@ -83,6 +83,20 @@ def _get_contact_details(emp_id):
             full_contact_cntx.update(contacts_cntx)
     return full_contact_cntx
 
+
+def _get_job_details(emp_id):
+    try:
+        emp_job_obj = CoreEmployeeJob.objects.get(employee=CoreEmployee(empl_id=emp_id))
+    except CoreEmployeeJob.DoesNotExist:
+        return {}
+    else:
+        job_cntx = {'job_dept': emp_job_obj.empl_department, 'job_desig': emp_job_obj.empl_designation,
+                    'job_type': emp_job_obj.empl_job_type, 'join_date': emp_job_obj.empl_join_date,
+                    'job_location': emp_job_obj.empl_job_location}
+        print job_cntx
+        return job_cntx
+
+
 ''' This method returns the employee's full details page with
     complete context '''
 
@@ -100,8 +114,11 @@ def full_employee_info(request, emp_id):
 
         personal_cntx = _get_personal_details(emp_id)
         contacts_cntx = _get_contact_details(emp_id)
+        job_cntx = _get_job_details(emp_id)
+
         full_employee_cntxt.update(personal_cntx)
         full_employee_cntxt.update(contacts_cntx)
+        full_employee_cntxt.update(job_cntx)
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
 
 
