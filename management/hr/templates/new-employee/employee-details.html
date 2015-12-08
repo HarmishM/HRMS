@@ -63,7 +63,7 @@
 <script src="{% static 'js/insert_contact_details.js' %}"></script>
 <script src="{% static 'js/insert_job_details.js' %}"></script>
 <script type="text/javascript">
-$.backstretch("http://travelhdwallpapers.com/wp-content/uploads/2014/02/Manhattan-Bridge-13.jpg", {speed: 550});
+$.backstretch("{% static 'img/Manhattan-Bridge-13.jpg' %}", {speed: 550});
 // Assign template context variables to JS variables
 // Load Personal details context variables
 
@@ -81,7 +81,8 @@ var homePhone = '{{ 0home_phone }}'; var mobile = '{{ 0mobile }}'; var primEmail
 // Load Job details context variables from backend
 
 var jobDepartment = '{{ job_dept }}'; var jobDesig = '{{ job_desig }}'; var jobType = '{{ job_type }}';
-var joinDate = '{{ join_date }}'; var jobLoc = '{{ job_location }}';
+var joinDate = '{{ join_date|date }}'; var jobLoc = '{{ job_location }}';
+
 
 // Page on load ffuction i.e. document.ready
 
@@ -94,7 +95,7 @@ $(function(){
 
 	load_countries(); load_contacts_details(); post_contact_info();
 
-    disable_job_detail(); fill_departments_designations(); post_job_info();
+    fill_departments_designations(); post_job_info();
 
 	$('.datepicker').datepicker();
 	$('.selectpicker').selectpicker();
@@ -138,9 +139,9 @@ $(function(){
     	//$('#form-container').append($(theDiv));
     	//$(theDiv).appendTo('#form-container');
     	//$(theDiv).slideToggle();
-    	
+
     	//$(theDiv).show(500);
-    	
+
     	//$('#contact-detail').fadeIn();
     	//$('#form-container').hide().html($(theDiv).html()).show(500);
 	});
@@ -155,7 +156,7 @@ $('#cancel-supervisor').on('click', function(){
 	$('#supervisor-selects').css('visibility', 'hidden');
 	$('#add-delete-super-buttons').show();
 	$('#add-delete-super-buttons').css('visibility', 'visible');
-	
+
 });
 
 var data = ['Mahadev','Steve Jobs','Linus Torvald','Mark Zucherburg','Richard Stallmen'];
@@ -182,14 +183,13 @@ $('#supervisor-name').typeahead({
 				<ul class="nav">
 					<li><a href="#personal-detail"><b><center>Personal Details</center></b></a></li>
 					<li><a href="#contact-detail"><b><center>Contact Details</center></b></a></li>
-					<li><a href="#job-detail"><b><center>Job</center></b></a></li>
-					<li><a href="#"><b><center>Salary</center></b></a></li>
-					<li><a href="#reporting-detail"><b><center>Reporting</center></b></a></li>
+					<li><a href="#job-detail"><b><center>Job Details</center></b></a></li>
+					<li><a href="#"><b><center>Salary Details</center></b></a></li>
+					<li><a href="#reporting-detail"><b><center>Reporting Details</center></b></a></li>
 					<li><a href="#"><b><center>Qualifications</center></b></a></li>
 				</ul>
 			</div>
 		</div>
-
 	<div id="form-container" class="col-md-8 col-md-offset-1">
 		<div id="personal-detail">
 			<center><h5><span class="label label-default">Personal Details</span></h5></center>
@@ -391,16 +391,14 @@ $('#supervisor-name').typeahead({
 <div id="job-detail">
 	<h5><center><span class="label label-primary"> Job Details </span></center></h5>
 	</br>
-	<form id="job-form" role="form" action="" type="post" class="col col-md-12">
+	<form id="jobemp-form" role="form" action="" type="post" class="col col-md-12">
 		<div class="row">
 			<div class="col col-md-5">
 				<h5><span class="label label-primary">Department</span></h5>
 				</br>
 				<div class="form-group">
 					<select class="selectpicker" id="depts" name="department">
-                        <option value="Engineering-Dev" selected="selected">Engineering-Dev</option>
                         <option value="None">Not Selected Yet</option>
-
                     </select>
 				</div>
 			</div>
@@ -425,11 +423,11 @@ $('#supervisor-name').typeahead({
 				<div class="form-group">
 					<select class="selectpicker" id="emp-type" name="emp-type">
                         <option value="None">Not Selected Yet</option>
-						<option value="contract-basis">Contract Basis</option>
-						<option value="fulltime-contract">Full time contract</option>
-						<option value="fulltime-permanat">Full time Permanant</option>
-						<option value="probation">Probation</option>
-						<option value="parttime-intern">Part time Internship</option>
+						<option value="Contract Basis">Contract Basis</option>
+						<option value="Full time contract">Full time contract</option>
+						<option value="Full time Permanant">Full time Permanant</option>
+						<option value="Probation">Probation</option>
+						<option value="Part time Internship">Part time Internship</option>
 					</select>
 				</div>
 			</div>
@@ -457,8 +455,8 @@ $('#supervisor-name').typeahead({
 				<div class="form-group">
 					<select class="selectpicker" id="job-location" name="job-location">
                         <option value="None">Not Selected Yet</option>
-						<option value="HQ">Ahmedabad - HQ</option>
-						<option value="bangalore">Bangalore</option>
+						<option value="Ahmedabad - HQ">Ahmedabad - HQ</option>
+						<option value="Bangalore">Bangalore</option>
 					</select>
 				</div>
 			</div>
