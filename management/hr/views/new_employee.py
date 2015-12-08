@@ -50,12 +50,41 @@ def feed_new_empl_details(request):
 ''' fetches the employee's personal details '''
 
 
-def _get_personal_details(emp_obj):
+def _get_personal_details(emp_id):
+    emp_obj = CoreEmployee.objects.get(empl_id=emp_id)
     personal_cntx = {'fname': emp_obj.empl_fname, 'mname': emp_obj.empl_mname, 'lname': emp_obj.empl_lname,
                      'dob': emp_obj.empl_dob, 'lic_number': emp_obj.empl_driving_licence_number,\
                      'lic_expiry': emp_obj.driving_licence_expiry, 'marital_status': emp_obj.empl_marital_status,
                      'gender': emp_obj.empl_gender}
     return personal_cntx
+
+''' fetches the employee's contact details, written to handle provision of
+    multiple addresses in future '''
+
+
+def _get_contact_details(emp_id):
+    full_contact_cntx = {}
+    try:
+        emp_contact_objs = CoreEmployeeContact.objects.filter(employee=CoreEmployee(empl_id=emp_id))
+    except CoreEmployeeContact.DoesNotExist:
+        return {}
+    else:
+        for obj in emp_contact_objs:
+            key_prefix = list(emp_contact_objs).index(obj)
+            contacts_cntx = {'{}addrs_line1'.format(key_prefix): obj.addr_line1,
+                             '{}addrs_line2'.format(key_prefix): obj.addr_line2,
+                             '{}addrs_city'.format(key_prefix): obj.city,
+                             '{}addrs_state'.format(key_prefix): obj.state,
+                             '{}addrs_country'.format(key_prefix): obj.country,
+                             '{}addrs_zip'.format(key_prefix): obj.zip_code,
+                             '{}home_phone'.format(key_prefix): obj.home_phone,
+                             '{}mobile'.format(key_prefix): obj.mobile,
+                             '{}pri_email'.format(key_prefix): obj.personal_email}
+            full_contact_cntx.update(contacts_cntx)
+    return full_contact_cntx
+
+''' This method returns the employee's full details page with
+    complete context '''
 
 
 @csrf_protect
@@ -69,8 +98,10 @@ def full_employee_info(request, emp_id):
 
         '''Start getting the details of employee for received emp_id'''
 
-        personal_cntx = _get_personal_details(emp_obj)
+        personal_cntx = _get_personal_details(emp_id)
+        contacts_cntx = _get_contact_details(emp_id)
         full_employee_cntxt.update(personal_cntx)
+        full_employee_cntxt.update(contacts_cntx)
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
 
 
@@ -95,7 +126,6 @@ def update_personal_details(request):
         driving_licence_expiry = request.POST.get('lsn_expiry')
         marital_status = request.POST.get('mar_status')
         gender = request.POST.get('gender')
-        #print driving_licence_number, driving_licence_expiry, marital_status, gender
 
         ''' get the requested employee and set its properties received from request,
          double checking agin here, hard to happn '''
@@ -119,5 +149,4 @@ def update_personal_details(request):
         else:
             obj_employee.empl_gender = None
         obj_employee.save()
-        print 'callleddddddd'
         return HttpResponse('Saved Successfully')
