@@ -62,6 +62,7 @@
 <script src="{% static 'js/insert_full_details_personal.js' %}"></script>
 <script src="{% static 'js/insert_contact_details.js' %}"></script>
 <script src="{% static 'js/insert_job_details.js' %}"></script>
+<script src="{% static 'js/reportingTo.js' %}"></script>
 <script type="text/javascript">
 $.backstretch("{% static 'img/Manhattan-Bridge-13.jpg' %}", {speed: 550});
 // Assign template context variables to JS variables
@@ -83,6 +84,18 @@ var homePhone = '{{ 0home_phone }}'; var mobile = '{{ 0mobile }}'; var primEmail
 var jobDepartment = '{{ job_dept }}'; var jobDesig = '{{ job_desig }}'; var jobType = '{{ job_type }}';
 var joinDate = '{{ join_date|date }}'; var jobLoc = '{{ job_location }}';
 
+// Reporting To module parameters....
+
+var employeeNameList = []; var employeeIdList = [];
+
+{% for obj in employees %}
+
+employeeIdList.push({{ obj.empl_id }});
+employeeNameList.push('{{ obj.empl_fname }}' + ' ' + '{{ obj.empl_lname }}');
+
+{% endfor %}
+console.log(employeeIdList);
+console.log(employeeNameList);
 
 // Page on load ffuction i.e. document.ready
 
@@ -96,6 +109,8 @@ $(function(){
 	load_countries(); load_contacts_details(); post_contact_info();
 
     fill_departments_designations(); post_job_info();
+
+    postReporting_details();
 
 	$('.datepicker').datepicker();
 	$('.selectpicker').selectpicker();
@@ -159,9 +174,9 @@ $('#cancel-supervisor').on('click', function(){
 
 });
 
-var data = ['Mahadev','Steve Jobs','Linus Torvald','Mark Zucherburg','Richard Stallmen'];
+// var data = ['Mahadev','Steve Jobs','Linus Torvald','Mark Zucherburg','Richard Stallmen'];
 $('#supervisor-name').typeahead({
-        source: data,
+        source: employeeNameList,
 });
 
 });
@@ -478,18 +493,31 @@ $('#supervisor-name').typeahead({
 
 	</form>
 </div>
+        <!-- -------                    Reporting Details              -----------     -->
 
 <div id="reporting-detail">
 	<h5><center><span class="label label-primary"> Reporting Details </span></center></h5>
 	</br>
 		<div class="row">
 			<div class="col-md-10">
-				<div class="form-group">
+				<div class="form-group-reporting">
 					<table class="table table-bordered">
 						<thead>
 							<th>Reporting To</th>
 							<th>Type</th>
+                            <th>Action</th>
 						</thead>
+                        {% if reporting %}
+                        <tbody>
+                            {% for reportee in reporting %}
+                            <tr>
+                                <td>{{ reportee.supervisor_name }}</td>
+                                <td>{{ reportee.reporting_type }}</td>
+                                <td><button type="button" class="btn btn-danger" name="delete-row" id="{{ reportee.supervisor_id }}" value="{{ reportee.supervisor_id }}"><span class="glyphicon glyphicon-remove"></span></button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% endif %}
 					</table>
 				</div>
 			</div>
@@ -501,11 +529,6 @@ $('#supervisor-name').typeahead({
 				</div>
 			</div>
 
-			<div class="col-md-1">
-				<div class="form-group">
-					<button id="delete-supervisor" type="button" class="btn btn-danger">Delete</button>
-				</div>
-			</div>
 		</div>
 		<hr style="border-width: 6.5px;" />
 		</br>
@@ -522,7 +545,11 @@ $('#supervisor-name').typeahead({
 						<h5><span class="label label-primary">Type</span></h5>
 						</br>
 						<div class="form-group">
-							<select class="selectpicker" id="reporting-type" name="reporting-type"></select>
+							<select class="selectpicker" id="reporting-type" name="reporting-type">
+                                <option value="None">Not Selected Yet</option>
+                                <option value="Direct">Direct</option>
+                                <option value="Indeirect">Indirect</option>
+                            </select>
 						</div>
 					</div>
 				</div>

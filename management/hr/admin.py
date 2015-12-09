@@ -2,7 +2,6 @@ from django.contrib import admin
 from hr.models import *
 from django.contrib.admin import *
 
-
 class CoreEmployeeAdmin(admin.ModelAdmin):
     pass
 
@@ -20,3 +19,4 @@ admin.site.register(CoreDeparDesig, CoreDeparDesigAdmin)
 admin.site.register(CoreEmployee)
 admin.site.register(CoreEmployeeContact, CoreEmployeeContactAdmin)
 admin.site.register(CoreEmployeeJob)
+admin.site.register(CoreEmployeeReporting)
