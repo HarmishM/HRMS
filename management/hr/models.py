@@ -46,6 +46,17 @@ class CoreEmployeeJob(models.Model):
     empl_job_location = models.CharField(max_length=50, null=True, blank=True)
 
 
+''' Employee's Reporting info. 'll be stored in the below table,
+    ``empl_id`` of ``CoreEmployee`` will serve as PK for this,
+     also ``supervisor_id`` will also be FK to ``CoreEmployee``.'''
+
+
+class CoreEmployeeReporting(models.Model):
+    employee_id = models.ForeignKey(CoreEmployee, related_name='employee_reporting_for')
+    supervisor_id = models.ForeignKey(CoreEmployee, related_name='employee_reporting_to')
+    reporting_type = models.CharField(max_length=20, null=True, blank=True)
+
+
 class CoreDeparDesig(models.Model):
     department = models.CharField(max_length=40)
     designation = models.CharField(max_length=40)

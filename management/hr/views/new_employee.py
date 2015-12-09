@@ -93,9 +93,30 @@ def _get_job_details(emp_id):
         job_cntx = {'job_dept': emp_job_obj.empl_department, 'job_desig': emp_job_obj.empl_designation,
                     'job_type': emp_job_obj.empl_job_type, 'join_date': emp_job_obj.empl_join_date,
                     'job_location': emp_job_obj.empl_job_location}
-        print job_cntx
         return job_cntx
 
+
+def _fetch_employee_list():
+    try:
+        employee_objs = CoreEmployee.objects.all().values('empl_id', 'empl_fname', 'empl_lname')
+    except InternalError:
+        return {}
+    else:
+        return employee_objs
+
+
+def _get_reporting_details(emp_id):
+    try:
+        emp_report_objects = CoreEmployeeReporting.objects.filter(employee_id=CoreEmployee(empl_id=emp_id))
+    except CoreEmployeeJob.DoesNotExist:
+        return {}
+    else:
+        reporting_list = []
+        for obj in emp_report_objects:
+            dct = {'supervisor_name': '{} {}'.format(obj.supervisor_id.empl_fname, obj.supervisor_id.empl_lname),
+                   'reporting_type': obj.reporting_type, 'supervisor_id': '{}{}'.format(obj.employee_id.empl_id, obj.reporting_type)}
+            reporting_list.append(dct)
+        return reporting_list
 
 ''' This method returns the employee's full details page with
     complete context '''
@@ -119,6 +140,12 @@ def full_employee_info(request, emp_id):
         full_employee_cntxt.update(personal_cntx)
         full_employee_cntxt.update(contacts_cntx)
         full_employee_cntxt.update(job_cntx)
+        list_employees = _fetch_employee_list()
+
+        full_employee_cntxt['employees'] = list_employees
+        reporting_cntx = _get_reporting_details(emp_id)
+        full_employee_cntxt['reporting'] = reporting_cntx
+        print full_employee_cntxt
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
 
 

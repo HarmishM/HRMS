@@ -3,3 +3,4 @@ from hr_ajax_views import *
 from update_contact_details import *
 from update_job_details import *
 from list_employees import *
+from add_supervisor import *
