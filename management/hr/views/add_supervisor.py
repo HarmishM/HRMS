@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from hr.models import *
 from django.views.decorators.csrf import csrf_exempt
 import json
+import re
 
 
 @csrf_exempt
@@ -28,3 +29,28 @@ def update_reporting_details(request):
         if not created:
             return HttpResponse(json.dumps('This record already exists'))
         return HttpResponse('saved0')
+
+
+@csrf_exempt
+def delete_supervisor(request):
+    if request.method == 'POST':
+        print 'hit to delete view'
+        employee_id = request.POST.get('empl_id')
+        supervisor_string = request.POST.get('comb_str')
+
+        match = re.match(r"([0-9])", str(supervisor_string), re.I)
+        if match:
+            items = match.groups()
+        supervisor_id = items[0]
+        reporting_type = supervisor_string.split(str(supervisor_id))[1]
+        print supervisor_id, reporting_type
+
+        try:
+            report_object = CoreEmployeeReporting.objects.get(employee_id=CoreEmployee(empl_id=employee_id),
+                                                              supervisor_id=CoreEmployee(empl_id=supervisor_id),
+                                                              reporting_type=reporting_type)
+            report_object.delete()
+        except CoreEmployeeReporting.DoesNotExist:
+            return HttpResponse(json.dumps('Object does not exists'))
+
+        return HttpResponse(json.dumps('Deleted successfully'))
