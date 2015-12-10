@@ -501,14 +501,15 @@ $('#supervisor-name').typeahead({
 		<div class="row">
 			<div class="col-md-10">
 				<div class="form-group-reporting">
-					<table class="table table-bordered">
+					<table id="reporting-table" class="table table-bordered">
 						<thead>
 							<th>Reporting To</th>
 							<th>Type</th>
                             <th>Action</th>
 						</thead>
-                        {% if reporting %}
                         <tbody>
+                        {% if reporting %}
+
                             {% for reportee in reporting %}
                             <tr>
                                 <td>{{ reportee.supervisor_name }}</td>
@@ -516,8 +517,9 @@ $('#supervisor-name').typeahead({
                                 <td><button type="button" class="btn btn-danger" name="delete-row" id="{{ reportee.supervisor_id }}" value="{{ reportee.supervisor_id }}"><span class="glyphicon glyphicon-remove"></span></button></td>
                             </tr>
                             {% endfor %}
-                        </tbody>
+
                         {% endif %}
+                        </tbody>
 					</table>
 				</div>
 			</div>

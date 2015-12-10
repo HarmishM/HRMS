@@ -114,7 +114,7 @@ def _get_reporting_details(emp_id):
         reporting_list = []
         for obj in emp_report_objects:
             dct = {'supervisor_name': '{} {}'.format(obj.supervisor_id.empl_fname, obj.supervisor_id.empl_lname),
-                   'reporting_type': obj.reporting_type, 'supervisor_id': '{}{}'.format(obj.employee_id.empl_id, obj.reporting_type)}
+                   'reporting_type': obj.reporting_type, 'supervisor_id': '{}{}'.format(obj.supervisor_id.empl_id, obj.reporting_type)}
             reporting_list.append(dct)
         return reporting_list
 
@@ -122,7 +122,7 @@ def _get_reporting_details(emp_id):
     complete context '''
 
 
-@csrf_protect
+@csrf_exempt
 def full_employee_info(request, emp_id):
     if request.method == 'GET':
         full_employee_cntxt = {}
@@ -145,7 +145,7 @@ def full_employee_info(request, emp_id):
         full_employee_cntxt['employees'] = list_employees
         reporting_cntx = _get_reporting_details(emp_id)
         full_employee_cntxt['reporting'] = reporting_cntx
-        print full_employee_cntxt
+        # print full_employee_cntxt
         return render(request, 'new-employee/employee-details.html', full_employee_cntxt)
 
 
